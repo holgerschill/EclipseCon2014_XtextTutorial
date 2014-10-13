@@ -359,25 +359,34 @@ public class SurveyGrammarAccess extends AbstractGrammarElementFinder {
 	}
 	
 	
-	private SurveyElements pSurvey;
-	private PageElements pPage;
-	private FollowUpElements pFollowUp;
-	private GuardElements pGuard;
-	private QualifiedNameElements pQualifiedName;
-	private QuestionElements pQuestion;
-	private FreeTextQuestionElements pFreeTextQuestion;
-	private ChoiceQuestionElements pChoiceQuestion;
-	private ChoiceElements pChoice;
+	private final SurveyElements pSurvey;
+	private final PageElements pPage;
+	private final FollowUpElements pFollowUp;
+	private final GuardElements pGuard;
+	private final QualifiedNameElements pQualifiedName;
+	private final QuestionElements pQuestion;
+	private final FreeTextQuestionElements pFreeTextQuestion;
+	private final ChoiceQuestionElements pChoiceQuestion;
+	private final ChoiceElements pChoice;
 	
 	private final Grammar grammar;
 
-	private TerminalsGrammarAccess gaTerminals;
+	private final TerminalsGrammarAccess gaTerminals;
 
 	@Inject
 	public SurveyGrammarAccess(GrammarProvider grammarProvider,
 		TerminalsGrammarAccess gaTerminals) {
 		this.grammar = internalFindGrammar(grammarProvider);
 		this.gaTerminals = gaTerminals;
+		this.pSurvey = new SurveyElements();
+		this.pPage = new PageElements();
+		this.pFollowUp = new FollowUpElements();
+		this.pGuard = new GuardElements();
+		this.pQualifiedName = new QualifiedNameElements();
+		this.pQuestion = new QuestionElements();
+		this.pFreeTextQuestion = new FreeTextQuestionElements();
+		this.pChoiceQuestion = new ChoiceQuestionElements();
+		this.pChoice = new ChoiceElements();
 	}
 	
 	protected Grammar internalFindGrammar(GrammarProvider grammarProvider) {
@@ -410,7 +419,7 @@ public class SurveyGrammarAccess extends AbstractGrammarElementFinder {
 	//Survey:
 	//	"survey" name=ID title=STRING pages+=Page*;
 	public SurveyElements getSurveyAccess() {
-		return (pSurvey != null) ? pSurvey : (pSurvey = new SurveyElements());
+		return pSurvey;
 	}
 	
 	public ParserRule getSurveyRule() {
@@ -420,7 +429,7 @@ public class SurveyGrammarAccess extends AbstractGrammarElementFinder {
 	//Page:
 	//	"page" name=ID "(" questions+=Question* followUps+=FollowUp* ")";
 	public PageElements getPageAccess() {
-		return (pPage != null) ? pPage : (pPage = new PageElements());
+		return pPage;
 	}
 	
 	public ParserRule getPageRule() {
@@ -430,7 +439,7 @@ public class SurveyGrammarAccess extends AbstractGrammarElementFinder {
 	//FollowUp:
 	//	guard=Guard? "->" next=[Page];
 	public FollowUpElements getFollowUpAccess() {
-		return (pFollowUp != null) ? pFollowUp : (pFollowUp = new FollowUpElements());
+		return pFollowUp;
 	}
 	
 	public ParserRule getFollowUpRule() {
@@ -440,7 +449,7 @@ public class SurveyGrammarAccess extends AbstractGrammarElementFinder {
 	//Guard:
 	//	"if" question=[ChoiceQuestion|QualifiedName] "=" answer=[Choice];
 	public GuardElements getGuardAccess() {
-		return (pGuard != null) ? pGuard : (pGuard = new GuardElements());
+		return pGuard;
 	}
 	
 	public ParserRule getGuardRule() {
@@ -450,7 +459,7 @@ public class SurveyGrammarAccess extends AbstractGrammarElementFinder {
 	//QualifiedName:
 	//	ID ("." ID)*;
 	public QualifiedNameElements getQualifiedNameAccess() {
-		return (pQualifiedName != null) ? pQualifiedName : (pQualifiedName = new QualifiedNameElements());
+		return pQualifiedName;
 	}
 	
 	public ParserRule getQualifiedNameRule() {
@@ -460,7 +469,7 @@ public class SurveyGrammarAccess extends AbstractGrammarElementFinder {
 	//Question:
 	//	FreeTextQuestion | ChoiceQuestion;
 	public QuestionElements getQuestionAccess() {
-		return (pQuestion != null) ? pQuestion : (pQuestion = new QuestionElements());
+		return pQuestion;
 	}
 	
 	public ParserRule getQuestionRule() {
@@ -470,7 +479,7 @@ public class SurveyGrammarAccess extends AbstractGrammarElementFinder {
 	//FreeTextQuestion:
 	//	"text" name=ID text=STRING;
 	public FreeTextQuestionElements getFreeTextQuestionAccess() {
-		return (pFreeTextQuestion != null) ? pFreeTextQuestion : (pFreeTextQuestion = new FreeTextQuestionElements());
+		return pFreeTextQuestion;
 	}
 	
 	public ParserRule getFreeTextQuestionRule() {
@@ -480,7 +489,7 @@ public class SurveyGrammarAccess extends AbstractGrammarElementFinder {
 	//ChoiceQuestion:
 	//	single?="single"? "choice" name=ID text=STRING "(" choices+=Choice+ ")";
 	public ChoiceQuestionElements getChoiceQuestionAccess() {
-		return (pChoiceQuestion != null) ? pChoiceQuestion : (pChoiceQuestion = new ChoiceQuestionElements());
+		return pChoiceQuestion;
 	}
 	
 	public ParserRule getChoiceQuestionRule() {
@@ -490,7 +499,7 @@ public class SurveyGrammarAccess extends AbstractGrammarElementFinder {
 	//Choice:
 	//	freetext?="text"? name=ID? text=STRING;
 	public ChoiceElements getChoiceAccess() {
-		return (pChoice != null) ? pChoice : (pChoice = new ChoiceElements());
+		return pChoice;
 	}
 	
 	public ParserRule getChoiceRule() {
@@ -510,8 +519,8 @@ public class SurveyGrammarAccess extends AbstractGrammarElementFinder {
 	} 
 
 	//terminal STRING:
-	//	"\"" ("\\" ("b" | "t" | "n" | "f" | "r" | "u" | "\"" | "\'" | "\\") | !("\\" | "\""))* "\"" | "\'" ("\\" ("b" | "t" |
-	//	"n" | "f" | "r" | "u" | "\"" | "\'" | "\\") | !("\\" | "\'"))* "\'";
+	//	"\"" ("\\" . / * 'b'|'t'|'n'|'f'|'r'|'u'|'"'|"'"|'\\' * / | !("\\" | "\""))* "\"" | "\'" ("\\" .
+	//	/ * 'b'|'t'|'n'|'f'|'r'|'u'|'"'|"'"|'\\' * / | !("\\" | "\'"))* "\'";
 	public TerminalRule getSTRINGRule() {
 		return gaTerminals.getSTRINGRule();
 	} 

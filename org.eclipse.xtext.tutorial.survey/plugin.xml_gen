@@ -7,7 +7,7 @@
     <package 
        uri = "http://www.eclipse.org/xtext/tutorial/survey/Survey" 
        class = "org.eclipse.xtext.tutorial.survey.survey.SurveyPackage"
-       genModel = "org/eclipse/xtext/tutorial/survey/Survey.genmodel" /> 
+       genModel = "model/generated/Survey.genmodel" /> 
 	
   </extension>
 

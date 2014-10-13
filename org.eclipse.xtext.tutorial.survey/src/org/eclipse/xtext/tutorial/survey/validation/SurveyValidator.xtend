@@ -3,11 +3,12 @@
  */
 package org.eclipse.xtext.tutorial.survey.validation
 
-import org.eclipse.xtext.tutorial.survey.survey.Question
-import org.eclipse.xtext.validation.Check
-import static org.eclipse.xtext.tutorial.survey.survey.SurveyPackage$Literals.*
 import org.eclipse.xtext.tutorial.survey.survey.Choice
 import org.eclipse.xtext.tutorial.survey.survey.ChoiceQuestion
+import org.eclipse.xtext.tutorial.survey.survey.Question
+import org.eclipse.xtext.validation.Check
+
+import static org.eclipse.xtext.tutorial.survey.survey.SurveyPackage.Literals.*
 
 /**
  * Custom validation rules. 
@@ -18,24 +19,24 @@ class SurveyValidator extends AbstractSurveyValidator {
 
 	@Check
 	def textMustNotBeEmpty(Question question) {
-		if(question.text.isEmpty) {
+		if (question.text.isEmpty) {
 			error("Empty question is illegal", QUESTION__TEXT)
 		}
 	}
 
 	@Check
 	def textMustNotBeEmpty(Choice choice) {
-		if(choice.text.isEmpty) {
+		if (choice.text.isEmpty) {
 			error("Empty choice is illegal", CHOICE__TEXT)
 		}
 	}
 
-	@Check 
+	@Check
 	def duplicateChoiceText(ChoiceQuestion question) {
 		var nameToChoice = newHashMap
-		for(choice: question.choices) {
+		for (choice : question.choices) {
 			val choiceWithSameName = nameToChoice.put(choice.text, choice)
-			if(choiceWithSameName != null) {
+			if (choiceWithSameName != null) {
 				error("Duplicate choice text", choice, CHOICE__TEXT)
 				error("Duplicate choice text", choiceWithSameName, CHOICE__TEXT)
 			}

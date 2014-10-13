@@ -13,7 +13,7 @@ class Evaluation {
 	protected def getHtml(extension DataStore dataStore) '''
 		<html>
 		<head>
-			<title>EclipseCon 2013 Tutorial Survey</title>
+			<title>EclipseCon 2014 Tutorial Survey</title>
 			<meta name="viewport" content="width=device-width, initial-scale=1.0">
 			<!-- Bootstrap -->
 			<link href="css/bootstrap.css" rel="stylesheet" media="screen">
@@ -24,7 +24,7 @@ class Evaluation {
 			<script src="js/bootstrap.js"></script>
 			<div class="navbar">
 			    <div class="navbar-inner">
-				    <a class="brand" href="/">EclipseCon 2013 Tutorial Survey</a>
+				    <a class="brand" href="/">EclipseCon 2014 Tutorial Survey</a>
 				    <ul class="nav pull-right">
 		    			<li class="active"><a href="/evaluate">Evaluate</a></li>
 		    		</ul>

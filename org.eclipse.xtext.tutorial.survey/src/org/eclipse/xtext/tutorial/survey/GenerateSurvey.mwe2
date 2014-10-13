@@ -9,15 +9,23 @@ var fileExtensions = "survey"
 var projectName = "org.eclipse.xtext.tutorial.survey"
 var runtimeProject = "../${projectName}"
 var generateXtendStub = true
+var encoding = "UTF-8"
 
 Workflow {
     bean = StandaloneSetup {
     	scanClassPath = true
     	platformUri = "${runtimeProject}/.."
+    	// The following two lines can be removed, if Xbase is not used.
+    	// registerGeneratedEPackage = "org.eclipse.xtext.xbase.XbasePackage"
+    	// registerGenModelFile = "platform:/resource/org.eclipse.xtext.xbase/model/Xbase.genmodel"
     }
     
     component = DirectoryCleaner {
     	directory = "${runtimeProject}/src-gen"
+    }
+    
+    component = DirectoryCleaner {
+    	directory = "${runtimeProject}/model/generated"
     }
     
     component = DirectoryCleaner {
@@ -31,9 +39,10 @@ Workflow {
     component = Generator {
     	pathRtProject = runtimeProject
     	pathUiProject = "${runtimeProject}.ui"
-    	//pathTestProject = "${runtimeProject}.tests"
+    	pathTestProject = "${runtimeProject}.tests"
     	projectNameRt = projectName
     	projectNameUi = "${projectName}.ui"
+    	encoding = encoding
     	language = auto-inject {
     		uri = grammarURI
     
@@ -41,12 +50,7 @@ Workflow {
     		fragment = grammarAccess.GrammarAccessFragment auto-inject {}
     
     		// generates Java API for the generated EPackages
-    		fragment = ecore.EcoreGeneratorFragment auto-inject {
-    		// referencedGenModels = "
-    		//  platform:/resource/org.eclipse.xtext.xbase/model/Xbase.genmodel,
-    		//  platform:/resource/org.eclipse.xtext.common.types/model/JavaVMTypes.genmodel
-    		// "
-    		}
+    		fragment = ecore.EMFGeneratorFragment auto-inject {}
     
     		// the old serialization component
     		// fragment = parseTreeConstructor.ParseTreeConstructorFragment auto-inject {}    
@@ -85,30 +89,20 @@ Workflow {
     		fragment = generator.GeneratorFragment auto-inject {}
     
     		// formatter API
-    		fragment = formatting.FormatterFragment auto-inject {
-    			generateStub = false
-    		}
+    		fragment = formatting.FormatterFragment auto-inject {}
     
     		// labeling API
-    		fragment = labeling.LabelProviderFragment auto-inject {
-    			generateStub = false
-    		}
+    		fragment = labeling.LabelProviderFragment auto-inject {}
     
     		// outline API
-    		fragment = outline.OutlineTreeProviderFragment auto-inject {
-    			generateStub = false
-    		}
+    		fragment = outline.OutlineTreeProviderFragment auto-inject {}
     		fragment = outline.QuickOutlineFragment auto-inject {}
     
     		// quickfix API
-    		fragment = quickfix.QuickfixProviderFragment auto-inject {
-    			generateStub = false
-    		}
+    		fragment = quickfix.QuickfixProviderFragment auto-inject {}
     
     		// content assist API
-    		fragment = contentAssist.ContentAssistFragment auto-inject {
-    			generateStub = false
-    		}
+    		fragment = contentAssist.ContentAssistFragment auto-inject {}
     
     		// generates a more lightweight Antlr parser and lexer tailored for content assist
     		fragment = parser.antlr.XtextAntlrUiGeneratorFragment auto-inject {}
@@ -116,16 +110,17 @@ Workflow {
     		// generates junit test support classes into Generator#pathTestProject
     		fragment = junit.Junit4Fragment auto-inject {}
     
-    		// project wizard (optional)
-    		// fragment = projectWizard.SimpleProjectWizardFragment auto-inject {
-    		//      generatorProjectName = "${projectName}"
-    		// }
-    
     		// rename refactoring
     		fragment = refactoring.RefactorElementNameFragment auto-inject {}
     
     		// provides the necessary bindings for java types integration
     		fragment = types.TypesGeneratorFragment auto-inject {}
+    
+    		// generates the required bindings only if the grammar inherits from Xbase
+    		fragment = xbase.XbaseGeneratorFragment auto-inject {}
+    		
+    		// generates the required bindings only if the grammar inherits from Xtype
+    		fragment = xbase.XtypeGeneratorFragment auto-inject {}
     
     		// provides a preference page for template proposals
     		fragment = templates.CodetemplatesGeneratorFragment auto-inject {}

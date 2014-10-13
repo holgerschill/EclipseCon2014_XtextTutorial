@@ -12,14 +12,15 @@ Require-Bundle: org.eclipse.xtext.tutorial.survey;visibility:=reexport,
  org.eclipse.xtext.ui.shared,
  org.eclipse.ui,
  org.eclipse.xtext.builder,
+ org.eclipse.xtext.xbase.lib,
  org.antlr.runtime,
  org.eclipse.xtext.common.types.ui,
  org.eclipse.xtext.ui.codetemplates.ui,
  org.eclipse.compare
-Import-Package: org.apache.log4j,
- org.eclipse.xtext.xbase.lib
-Bundle-RequiredExecutionEnvironment: J2SE-1.5
-Export-Package: org.eclipse.xtext.tutorial.survey.ui.contentassist,
+Import-Package: org.apache.log4j
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Export-Package: org.eclipse.xtext.tutorial.survey.ui.quickfix,
+ org.eclipse.xtext.tutorial.survey.ui.contentassist,
  org.eclipse.xtext.tutorial.survey.ui.contentassist.antlr,
  org.eclipse.xtext.tutorial.survey.ui.internal
 Bundle-Activator: org.eclipse.xtext.tutorial.survey.ui.internal.SurveyActivator

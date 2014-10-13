@@ -14,4 +14,6 @@ public class SurveyRuntimeModule extends org.eclipse.xtext.tutorial.survey.Abstr
 	public Class<? extends IOutputConfigurationProvider> bindIOutputConfigurationProvider() {
 		return SurveyOutputConfigurationProvider.class;
 	}
+
+
 }

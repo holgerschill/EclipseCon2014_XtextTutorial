@@ -18,20 +18,17 @@ import org.eclipse.xtext.tutorial.survey.survey.Survey
  * see http://www.eclipse.org/Xtext/documentation.html#TutorialCodeGeneration
  */
 class SurveyGenerator implements IGenerator {
-	
+
 	override void doGenerate(Resource resource, IFileSystemAccess fsa) {
 		val survey = resource.contents.head as Survey
 		if(survey != null) {
 			for(page: survey.pages) {
-				fsa.generateFile(page.name + '.html', 
-					SurveyOutputConfigurationProvider.htmlOutputConfig, 
-					toHtml(survey, page)
-				)
+				fsa.generateFile(page.name + '.html', toHtml(survey, page))
 			}
 			fsa.generateFile("main/PageFlow.java", survey.toPageFlow)
 		}
 	}
-	
+
 	protected def toHtml(Survey survey, Page page) '''
 		<html>
 		<head>
@@ -74,7 +71,7 @@ class SurveyGenerator implements IGenerator {
 			</body>
 		</html>
 	'''
-	
+
 	protected def dispatch controlGroup(FreeTextQuestion question) '''
 		<div class="control-group">
 			<label class="control-label">«question.text»</label>
@@ -83,7 +80,7 @@ class SurveyGenerator implements IGenerator {
 			</div>
 		</div>
 	'''
-	
+
 	protected def dispatch controlGroup(ChoiceQuestion question) {
 		val buttonType = if(question.isSingle) 'radio' else 'checkbox'
 		'''
@@ -114,7 +111,7 @@ class SurveyGenerator implements IGenerator {
 	protected def getNameNotNull(Choice choice) {
 		choice.name ?: 'answer_' + (choice.eContainer as ChoiceQuestion).choices.indexOf(choice) 
 	}
-	
+
 	def toPageFlow(Survey survey) '''
 		package main;
 		
@@ -131,21 +128,14 @@ class SurveyGenerator implements IGenerator {
 				String currentPage = formState.getCurrentPage();
 				if(currentPage == null)
 					return getFirstPage();
-				«FOR page: survey.pages.filter[!followUps.empty]»
+				«FOR page: survey.pages.filter[next != null]»
 				if("«page.name»".equals(currentPage)) {
-					«FOR followUp : page.followUps»
-						«IF followUp.guard != null»
-							if("«followUp.guard.answer.name»".equals(formState.getValue("«followUp.guard.question.name»"))) {
-								return "«followUp.next.name»";
-							}
-						«ELSE»
-							return "«followUp.next.name»";
-						«ENDIF»
-					«ENDFOR»
+					return "«page.next.name»";
 				}
 				«ENDFOR»
 				return null;
 			}
 		}
 	'''
+
 }

@@ -12,16 +12,16 @@ import org.eclipse.xtext.tutorial.survey.survey.Guard
 /**
  * This class contains custom scoping description.
  * 
- * see : http://www.eclipse.org/Xtext/documentation/latest/xtext.html#scoping
+ * see : http://www.eclipse.org/Xtext/documentation.html#scoping
  * on how and when to use it 
  *
  */
 class SurveyScopeProvider extends AbstractDeclarativeScopeProvider {
 
 	def scope_Guard_answer(Guard guard, EReference ref) {
-		if(guard.question == null)
+		if (guard.question == null)
 			IScope.NULLSCOPE
 		else
-			Scopes.scopeFor(guard.question.choices) 
+			Scopes.scopeFor(guard.question.choices)
 	}
 }
