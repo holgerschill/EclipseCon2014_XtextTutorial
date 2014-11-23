@@ -1,0 +1,13 @@
+09:00 - start
+09:20 - exercise 0
+09:30 - slides: grammar
+09:35 - exercise 1
+10:05 - slides: Xtend
+10:15 - exercise 2
+10:35 - slides: validator
+10:40 - exercise 3
+11:05 - slides: scoping
+11:15 - exercise 4
+11:30 - slides: ui-features, tech, Xpect
+11:40 - IndelliJ demo
+11:50 - slides
