@@ -1,2 +1,2 @@
-EclipseCon2014_XtextTutorial
+EclipseCon2015_XtextTutorial
 ============================
