@@ -8,6 +8,5 @@
 10:40 - exercise 3
 11:05 - slides: scoping
 11:15 - exercise 4
-11:30 - slides: ui-features, tech, Xpect
-11:40 - IndelliJ demo
+11:30 - slides: ui-features
 11:50 - slides
