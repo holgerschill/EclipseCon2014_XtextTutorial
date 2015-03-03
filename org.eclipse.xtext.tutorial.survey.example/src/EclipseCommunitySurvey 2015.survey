@@ -1,4 +1,4 @@
-survey community "Eclipse Community Survey 2014"
+survey community "Eclipse Community Survey 2015"
 
 page country (
 	single choice country "What country do you reside in?" (
